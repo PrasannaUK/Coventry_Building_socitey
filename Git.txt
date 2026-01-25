@@ -1,0 +1,8 @@
+git branch feature-branch/release_branch
+git checkout feature-branch/release_branch
+git status
+git add .
+git commit -m "added credit_risk application logic"
+git push
+
+#create pull request to merge changes to UAT/Prod
