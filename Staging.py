@@ -8,7 +8,7 @@ def ingest_data(path: str) -> DataFrame:
   .option('header','true')\
   .option('inferSchema','true')\
   .csv(path)      #reading csv file
-  print(f"Total records ingested: {df.count()}")
+  print(f"Total records ingested to staging: {df.count()}")
   return df
 
 #Transformation – Cleaning & Validation
@@ -23,3 +23,4 @@ def load_data(df:DataFrame, path:str):
   print(f"Writing clean data to {path}")
   
   df.write.option('header','true').option('inferSchema','true').mode("overwrite").csv(path)
+
