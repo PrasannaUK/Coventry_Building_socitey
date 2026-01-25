@@ -1,8 +1,8 @@
 #Pipeline Orchestration
 from pyspark.sql.functions import sum as _sum, count, avg, when, col
-from Staging import ingest_data, clean_data, load_data
-from transformed import load_data, enrich_data, aggregate_data, load_data
-
+#from Staging import ingest_data, clean_data, load_data #need to package this module
+#from transformed import load_data, enrich_data, aggregate_data, load_data #need to package this module
+#import logging #need to package this module
 
 raw_path="s3://raw_bucket/transactions.csv"
 staging_path="s3://stage_bucket/clean.csv"
@@ -13,7 +13,11 @@ def main():
        .builder \
        .appName("credit_risk") \
        .getOrCreate()
+  
+    #logging.basicConfig(level=logging.INFO)
+    #logger = logging.getLogger("DataOpsPipeline")
 
+    #logger.info("Pipeline started")
     df_inj=ingest_data(raw_path)
     df_cln=clean_data(df_inj)
     load_data(df_cln,staging_path)
