@@ -1,0 +1,13 @@
+{
+  
+  "raw_path"="s3://raw_bucket/transactions.csv",
+  "staging_path"="s3://stage_bucket/clean.csv",
+  "curated_path"="s3://core_bucket/transformed.parquet"
+
+  "jdbc_url": "jdbc:redshift://redshift-cluster.xxxxx.us-east-1.redshift.amazonaws.com:5439/finance_db",
+  "table": "public.financial_transactions",
+
+  "user": "etl_user",
+  "password": "${REDSHIFT_PASSWORD}",
+
+}
