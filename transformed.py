@@ -9,6 +9,7 @@ def stage_data(path: str) -> DataFrame:
   .option('inferSchema','true')\
   .csv(path)      #reading csv file
   print(f"Total records from staging: {df.count()}")
+  #logging.info(f"Total records from staging: {df.count()}")
   return df
 
 #Transformation – Enrichment - Business rules, Time-based enrichment, Risk classification
@@ -38,11 +39,25 @@ def aggregate_data(df:DataFrame):
             F.count("*").alias("transaction_count"),
             F.avg("amount").alias("avg_transaction_amount")
         )
-    print("Aggregated Data:")
+    
     return df_agg
 
 #Load Layer – Structured in Parquet
 def load_data(df:DataFrame, path:str):
   print(f"Writing tranformed data to {path}")
+  #logging.info(f"Writing tranformed data to {path}")
   
-  df.write.option('header','true').option('inferSchema','true').mode("overwrite").parquet(path)
+  df.write.partitionBy("transaction_date").option('header','true').option('inferSchema','true').mode("overwrite").parquet(path)
+
+# Load to Redshift
+def load_to_redshift(df, cfg: dict):
+        .format("jdbc")
+        .option("url", cfg["jdbc_url"])
+        .option("dbtable", cfg["table"])
+        .option("user", cfg["user"])
+        .option("password", cfg["password"])
+        .option("driver", "com.amazon.redshift.jdbc.Driver")
+        .mode("append")
+        .save()
+    #logging.info(f"Loaded data into Redshift table {cfg['table']}")
+
