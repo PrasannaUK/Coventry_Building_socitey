@@ -4,14 +4,16 @@ from pyspark.sql.functions import sum as _sum, count, avg, when, col
 #from transformed import load_data, enrich_data, aggregate_data, load_data #need to package this module
 #import logging     #need to package this module
 
-raw_path="s3://raw_bucket/transactions.csv"
-staging_path="s3://stage_bucket/clean.csv"
-curated_path="s3://core_bucket/transformed.parquet"
 config_path="s3://config_bucket/config.json"
 
 def main():
   with open(config_path) as f:
         cfg = json.load(f)
+
+  raw_path=cfg["raw_path"]
+  staging_path=cfg["staging_path"]
+  curated_path=cfg["curated_path"]
+  
   spark= SparkSession \
        .builder \
        .appName("credit_risk") \
