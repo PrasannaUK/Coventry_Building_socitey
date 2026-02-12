@@ -51,13 +51,13 @@ def load_data(df:DataFrame, path:str):
 
 # Load to Redshift
 def load_to_redshift(df, cfg: dict):
-        .format("jdbc")
-        .option("url", cfg["jdbc_url"])
-        .option("dbtable", cfg["table"])
-        .option("user", cfg["user"])
-        .option("password", cfg["password"])
-        .option("driver", "com.amazon.redshift.jdbc.Driver")
-        .mode("append")
+        df.write.format("jdbc")\
+        .option("url", cfg["jdbc_url"])\
+        .option("dbtable", cfg["table"])\
+        .option("user", cfg["user"])\
+        .option("password", cfg["password"])\
+        .option("driver", "com.amazon.redshift.jdbc.Driver")\
+        .mode("append")\
         .save()
     #logging.info(f"Loaded data into Redshift table {cfg['table']}")
 
